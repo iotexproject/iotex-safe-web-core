@@ -8,6 +8,7 @@ export const enum WALLET_KEYS {
   WALLETCONNECT = 'WALLETCONNECT',
   WALLETCONNECT_V2 = 'WALLETCONNECT_V2',
   TAHO = 'TAHO',
+  OKX = 'OKX',
 }
 
 export const CGW_NAMES: { [key in WALLET_KEYS]: string | undefined } = {
@@ -20,4 +21,5 @@ export const CGW_NAMES: { [key in WALLET_KEYS]: string | undefined } = {
   [WALLET_KEYS.WALLETCONNECT]: 'walletConnect',
   [WALLET_KEYS.WALLETCONNECT_V2]: 'walletConnect_v2',
   [WALLET_KEYS.TAHO]: 'tally',
+  [WALLET_KEYS.OKX]: 'okx',
 }

@@ -14,6 +14,8 @@ import pairingModule from '@/services/pairing/module'
 import e2eWalletModule from '@/tests/e2e-wallet'
 import { CGW_NAMES, WALLET_KEYS } from './consts'
 
+import okxWallet from '@web3-onboard/okx'
+
 const prefersDarkMode = (): boolean => {
   return window?.matchMedia('(prefers-color-scheme: dark)')?.matches
 }
@@ -56,6 +58,7 @@ const WALLET_MODULES: { [key in WALLET_KEYS]: (chain: ChainInfo) => WalletInit }
   [WALLET_KEYS.KEYSTONE]: () => keystoneModule(),
   [WALLET_KEYS.TAHO]: () => tahoModule(),
   [WALLET_KEYS.COINBASE]: () => coinbaseModule({ darkMode: prefersDarkMode() }),
+  [WALLET_KEYS.OKX]: () => okxWallet(),
 }
 
 export const getAllWallets = (chain: ChainInfo): WalletInit[] => {
