@@ -4,7 +4,9 @@ WORKDIR /app
 COPY . .
 
 # install deps
-RUN yarn install
+RUN yarn install && \
+    yarn build && \
+    yarn export
 
 ENV NODE_ENV production
 
@@ -17,4 +19,4 @@ EXPOSE 3000
 
 ENV PORT 3000
 
-CMD ["yarn", "static-serve"]
+CMD ["yarn", "static-serve", "-p", "$PORT"]
