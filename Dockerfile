@@ -9,6 +9,7 @@ RUN yarn install && \
     yarn export
 
 ENV NODE_ENV production
+ENV PORT 3000
 
 # Next.js collects completely anonymous telemetry data about general usage.
 # Learn more here: https://nextjs.org/telemetry
@@ -16,7 +17,5 @@ ENV NODE_ENV production
 ENV NEXT_TELEMETRY_DISABLED 1
 
 EXPOSE 3000
-
-ENV PORT 3000
 
 CMD ["yarn", "static-serve", "-p", "$PORT"]
