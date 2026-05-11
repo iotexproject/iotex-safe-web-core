@@ -69,8 +69,16 @@ jobs:
           du -sh out
 
       - name: Deploy to Cloudflare Pages (safe-iotex-staging)
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy out --project-name=safe-iotex-staging --branch=iotex-stg --commit-dirty=true
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          # Sanity-check the token is wired through and has Pages scope.
+          curl -sf -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" \
+            "https://api.cloudflare.com/client/v4/user/tokens/verify" \
+            | python3 -c "import json,sys; d=json.load(sys.stdin); print('token verify:', d.get('success'), d.get('result',{}).get('status'))"
+          # Direct-upload the static export.
+          npx -y wrangler@3.90.0 pages deploy out \
+            --project-name=safe-iotex-staging \
+            --branch=iotex-stg \
+            --commit-dirty=true
