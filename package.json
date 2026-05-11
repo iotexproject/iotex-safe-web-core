@@ -4,6 +4,7 @@
   "license": "GPL-3.0",
   "type": "module",
   "version": "1.14.0",
+  "packageManager": "yarn@1.22.22",
   "scripts": {
     "dev": "next dev",
     "start": "next dev",
