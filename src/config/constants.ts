@@ -18,7 +18,11 @@ export const SENTRY_DSN = process.env.NEXT_PUBLIC_SENTRY_DSN || ''
 export const BEAMER_ID = process.env.NEXT_PUBLIC_BEAMER_ID || ''
 
 // Wallets
-export const WC_BRIDGE = process.env.NEXT_PUBLIC_WC_BRIDGE || 'https://bridge.walletconnect.org'
+// WC_BRIDGE: if unset, the WC v1 modules (Safe Mobile pairing + WC v1 wallet option)
+// are skipped entirely. WalletConnect v1 was sunset 2023-06-28 and both
+// `wcb.safe.protofire.io` and the official `bridge.walletconnect.org` are dead.
+// Modern wallets connect via WC v2 (WC_PROJECT_ID) or injected providers.
+export const WC_BRIDGE = process.env.NEXT_PUBLIC_WC_BRIDGE || ''
 export const WC_PROJECT_ID = process.env.NEXT_PUBLIC_WC_PROJECT_ID || ''
 export const TREZOR_APP_URL = 'app.safe.global'
 export const TREZOR_EMAIL = 'support@safe.global'
