@@ -76,7 +76,15 @@ export const getSupportedWallets = (chain: ChainInfo): WalletInit[] => {
   if (window.Cypress && CYPRESS_MNEMONIC) {
     return [e2eWalletModule(chain.rpcUri)]
   }
-  const enabledWallets = Object.entries(WALLET_MODULES).filter(([key]) => isWalletSupported(chain.disabledWallets, key))
+  // WC v1 has no working public bridge anymore (sunset 2023-06-28). When
+  // WC_BRIDGE is unset, drop the v1 wallet option and the mobile pairing
+  // module (which also uses v1) from the picker — v2 + injected handle
+  // every modern wallet.
+  const dropV1Wallets = ([key]: [string, unknown]) =>
+    !!WC_BRIDGE || (key !== WALLET_KEYS.WALLETCONNECT && key !== WALLET_KEYS.PAIRING)
+  const enabledWallets = Object.entries(WALLET_MODULES)
+    .filter(dropV1Wallets)
+    .filter(([key]) => isWalletSupported(chain.disabledWallets, key))
 
   if (enabledWallets.length === 0) {
     return [WALLET_MODULES.INJECTED(chain)]
