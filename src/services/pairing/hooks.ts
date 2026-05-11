@@ -39,6 +39,11 @@ export const useInitPairing = () => {
   const isSupported = isPairingSupported(chain?.disabledWallets)
 
   useEffect(() => {
+    // Safe Mobile pairing relies on WalletConnect v1, which has been sunset
+    // and has no working public bridge. Skip init entirely when no bridge
+    // is configured so we don't open a doomed WebSocket on mount.
+    if (!WC_BRIDGE) return
+
     const _pairingConnector = new WalletConnect({
       bridge: WC_BRIDGE,
       storageId: local.getPrefixedKey(PAIRING_MODULE_STORAGE_ID),
