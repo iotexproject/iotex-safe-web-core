@@ -1,17 +1,41 @@
 import * as Sentry from '@sentry/react'
-import { Integrations } from '@sentry/tracing'
+import type { BrowserOptions } from '@sentry/react'
 import { SENTRY_DSN } from '@/config/constants'
 import packageJson from '../../package.json'
 
-Sentry.init({
+const sentryOptions: BrowserOptions = {
   dsn: SENTRY_DSN,
   release: `safe-wallet-web@${packageJson.version}`,
-  integrations: [new Integrations.BrowserTracing()],
-  sampleRate: 0.1,
+  integrations: [
+    Sentry.feedbackIntegration({
+      colorScheme: 'system',
+      showBranding: false,
+      buttonLabel: 'Feedback',
+      formTitle: 'Send feedback',
+      messageLabel: 'Feedback',
+      messagePlaceholder: 'What should we know?',
+      submitButtonLabel: 'Send',
+      cancelButtonLabel: 'Cancel',
+      successMessageText: 'Thanks for the feedback.',
+    }),
+  ],
+  tracesSampleRate: 0,
+  replaysSessionSampleRate: 0,
+  replaysOnErrorSampleRate: 0,
+  autoSessionTracking: false,
+  sendClientReports: false,
   // ignore MetaMask errors we don't control
   ignoreErrors: ['Internal JSON-RPC error', 'JsonRpcEngine', 'Non-Error promise rejection captured with keys: code'],
 
   beforeSend: (event) => {
+    if (event.type === 'feedback') {
+      return event
+    }
+
+    if (!event.exception?.values?.length) {
+      return null
+    }
+
     // Remove sensitive URL query params
     const query = event.request?.query_string
     if (event.request && query) {
@@ -24,6 +48,12 @@ Sentry.init({
     }
     return event
   },
-})
+
+  beforeSendTransaction: () => null,
+}
+
+if (SENTRY_DSN) {
+  Sentry.init(sentryOptions)
+}
 
 export default Sentry
