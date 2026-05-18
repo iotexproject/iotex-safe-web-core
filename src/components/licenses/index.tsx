@@ -497,14 +497,6 @@ const SafeLicenses = () => {
                 </TableCell>
               </TableRow>
               <TableRow>
-                <TableCell>@sentry/tracing</TableCell>
-                <TableCell>
-                  <ExternalLink href="https://github.com/getsentry/sentry-javascript/blob/develop/LICENSE">
-                    https://github.com/getsentry/sentry-javascript/blob/develop/LICENSE
-                  </ExternalLink>
-                </TableCell>
-              </TableRow>
-              <TableRow>
                 <TableCell>@truffle/hdwallet-provider</TableCell>
                 <TableCell>
                   <ExternalLink href="https://github.com/trufflesuite/truffle/blob/develop/LICENSE">
