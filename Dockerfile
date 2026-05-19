@@ -3,6 +3,8 @@ RUN apk add --no-cache libc6-compat git python3 py3-pip make g++
 WORKDIR /app
 COPY . .
 
+ARG NEXT_PUBLIC_SENTRY_DSN
+
 # install deps
 RUN yarn install && \
     yarn build && \
