@@ -68,6 +68,12 @@ jobs:
       - name: Install
         run: yarn install --frozen-lockfile --network-timeout 600000 --ignore-engines
 
+      - name: Check build vars
+        env:
+          WC_PROJECT_ID: ${{ vars.NEXT_PUBLIC_WC_PROJECT_ID }}
+        run: |
+          test -n "$WC_PROJECT_ID" || { echo "::error::NEXT_PUBLIC_WC_PROJECT_ID is not set"; exit 1; }
+
       - name: Build (export to ./out)
         env:
           NEXT_PUBLIC_IS_PRODUCTION: 'true'
