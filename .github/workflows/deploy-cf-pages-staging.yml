@@ -78,7 +78,7 @@ jobs:
           # WebSocket on page load. WC v2 (via NEXT_PUBLIC_WC_PROJECT_ID
           # → relay.walletconnect.com) handles all current wallet connections.
           NEXT_PUBLIC_WC_BRIDGE: ''
-          NEXT_PUBLIC_WC_PROJECT_ID: 3b8893a8032f8b2ec0ecbc3b9594cb76
+          NEXT_PUBLIC_WC_PROJECT_ID: ${{ vars.NEXT_PUBLIC_WC_PROJECT_ID }}
           NEXT_PUBLIC_GATEWAY_URL_STAGING: https://gateway.staging.safe.iotex.io
           NEXT_PUBLIC_GATEWAY_URL_PRODUCTION: https://gateway.staging.safe.iotex.io
           NEXT_PUBLIC_SENTRY_DSN: ${{ vars.NEXT_PUBLIC_SENTRY_DSN }}
