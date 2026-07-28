@@ -1,0 +1,24 @@
+# Cloudflare Pages response headers.
+#
+# The app already ships a CSP via <meta http-equiv> in _document.tsx, but a meta
+# CSP cannot carry frame-ancestors — the spec requires that directive to be
+# ignored when delivered that way. So without these headers safe.iotex.io is
+# framable by any origin, and a wallet UI whose primary controls are
+# "Confirm" / "Execute" is a worthwhile clickjacking target.
+#
+# X-Frame-Options mirrors what app.safe.global serves; the CSP header carries
+# only frame-ancestors, so it constrains framing and nothing else (each policy
+# is enforced independently, and a policy that declares no fetch directives
+# restricts no fetches).
+#
+# Deliberately no Permissions-Policy. Safe Apps run in cross-origin iframes and
+# receive features through the `allow` attribute built from src/components/
+# safe-apps/types.ts, which includes camera, microphone, geolocation and payment.
+# Permissions Policy delegation requires the *top-level* document to have the
+# feature enabled first, so a blanket `camera=()` here would silently override
+# that grant and break capable apps (QR scanners among them) no matter what the
+# iframe allows.
+/*
+  X-Frame-Options: SAMEORIGIN
+  Content-Security-Policy: frame-ancestors 'self'
+  Referrer-Policy: strict-origin-when-cross-origin
