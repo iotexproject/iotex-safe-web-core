@@ -67,7 +67,7 @@
     "ethers": "5.7.2",
     "exponential-backoff": "^3.1.0",
     "fuse.js": "^6.6.2",
-    "js-cookie": "^3.0.1",
+    "js-cookie": "^3.0.7",
     "lodash": "^4.17.21",
     "next": "12.2.0",
     "next-pwa": "^5.6.0",
