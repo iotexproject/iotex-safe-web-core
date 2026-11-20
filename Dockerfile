@@ -6,7 +6,10 @@ COPY . .
 ARG NEXT_PUBLIC_SENTRY_DSN
 
 # install deps
-RUN yarn install && \
+# --ignore-engines: js-cookie 3.0.7 declares engines.node >=20, but it is a
+# browser library bundled by Next.js and never runs on this Node. The Pages
+# build (iotex-web-ops safe-wallet/deploy-frontend.sh) uses the same flag.
+RUN yarn install --ignore-engines && \
     yarn build && \
     yarn export
 
